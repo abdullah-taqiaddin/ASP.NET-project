@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Final_Project.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <a asp-action="BookReport" class="btn btn-outline-success">Book Report</a>
+</div>
+
+<hr />
+
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="Get" asp-action="FilterByCatagory">
+                <div class="form-group">
+                    <label class="control-label">Filter By Catagory</label>
+                    <div>
+                        <select asp-items="@Html.GetEnumSelectList<eCatagory>()" name="Catagory" class="form-select form-group"></select>
+                        <span>
+                            <input type="submit" value="Filter" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-primary">Reset Filter</a>
+                        </span>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-route-SortBy="title_asc">
+                    <img src="~/images/Asc.png" width="32" height="32" alt="Sort Ascendign" />
+                </a>
+                <label asp-for="@Model.FirstOrDefault().Name"></label>
+                <a asp-route-SortBy="title_desc">
+                    <img src="~/images/dsc.png" width="32" height="32" alt="Sort Descendign" />
+                </a>
+            </th>
+            <th style="width:180px">
+                <a asp-route-SortBy="price_asc">
+                    <img src="~/images/Asc.png" width="32" height="32" alt="Sort Ascendign" />
+                </a>
+                <label asp-for="@Model.FirstOrDefault().Price"></label>
+                <a asp-route-SortBy="price_desc">
+                    <img src="~/images/dsc.png" width="32" height="32" alt="Sort Descendign" />
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Catagory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cover)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publsiher)
+            </th>
+            <th>
+                <a asp-action="Create" class="btn btn-success">Create New</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Catagory)
+            </td>
+            <td>
+                <img src="@item.Cover" class="img-thumbnail" width="150" height="150"/>
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Publsiher)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

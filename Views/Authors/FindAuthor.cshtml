@@ -1,0 +1,66 @@
+﻿@model FindAuthor
+
+@{
+    ViewData["Title"] = "FindAuthor";
+}
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <input type="submit" value="Search" class="btn btn-success" />
+    <a asp-action="Index" class="btn btn-info ">Go Back</a>
+</form>
+<hr />
+<h3>Search Result</h3>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="Name"></label>
+            </th>
+            <th>
+                <label asp-for="Authors.FirstOrDefault().DOB"></label>
+            </th>
+            <th>
+                <label asp-for="Authors.FirstOrDefault().Phone"></label>
+            </th>
+            <th>
+                <label asp-for="Authors.FirstOrDefault().Email"></label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Authors is null || Model.Authors.Count() == 0)
+        {
+            <tr>
+                <td colspan="2">
+                    No projects found!
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.Authors)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.DOB
+                    </td>
+                    <td>
+                        @item.Phone
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

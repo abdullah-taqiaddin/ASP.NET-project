@@ -1,0 +1,72 @@
+﻿@model BookReport
+@{
+    ViewData["Title"] = "BookReport";
+    int AuthSum = 0;
+}
+<h2>Show Books And Authors</h2>
+
+<form asp-action="BookReport">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group ">
+                <label class="control-label">Books Name</label>
+            </div>
+            <div class="form-group ">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group ">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-info ">Go Back</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card border-success mb-3" style="max-width: 200rem;">
+    <div class="card-header">Books & Authors report</div>
+    <div class="card-body">
+        @if (Model.Books is null || Model.Books.Count() == 0)
+        {
+            <div class="alert alert-dismissible alert-warning">
+                <h4 class="alert-heading">Warning!</h4>
+                <p class="mb-0">No Books found!</p>
+            </div>
+        }
+        else
+        {
+            foreach (var book in Model.Books)
+            {
+                <div class="card border-info mb-3" style="max-width: 100rem;">
+                    <div class="card-header">@book.Name</div>
+                    <div class="card-body">
+                        @foreach (var authorship in book.Authorships)
+                        {
+                            <h4 class="card-title">
+                                @authorship.Author.Name
+                                <span class="badge rounded-pill bg-light text-black-50">
+                                    @authorship.Author.Email
+                                </span>
+                                <span class="badge rounded-pill bg-light text-black-50">
+                                    @authorship.Role
+                                </span>
+                            </h4>
+                            AuthSum++;
+                        }
+                        <hr />
+                        <div>
+                            <h3>
+                                Number of Authors:
+                                @AuthSum
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                AuthSum = 0;
+            }
+        }
+    </div>
+</div>
+
+

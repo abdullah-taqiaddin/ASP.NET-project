@@ -1,0 +1,83 @@
+﻿@model FindAuthorByStuff
+
+@{
+    ViewData["Title"] = "FindAuthorByStuff";
+}
+
+<h1>FindAuthorByStuff</h1>
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-action="FindAuthorByStuff">
+                <div class="form-group">
+                    <div>
+                        <label class="control-label" asp-for="@Model.Authorships.FirstOrDefault().Role"></label>
+                        <select asp-items="@Html.GetEnumSelectList<eRole>()" name="Role" class="form-select form-group"></select>
+                        
+                        <label class="control-label" asp-for="@Model.Authorships.FirstOrDefault().Book.Name"></label>
+                        <input asp-for="Name" name="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <span>
+                            <input type="submit" value="Filter" class="btn btn-success" />
+                            <a asp-action="Index" class="btn btn-primary">Go Back</a>
+                        </span>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Authorships.FirstOrDefault().Book.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Authorships.FirstOrDefault().Author.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                <a asp-action="Create" class="btn btn-success">Create New</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if ( Model.Authorships is null || Model.Authorships.Count() == 0 )
+        {
+            <tr>
+                <td colspan="2">
+                    No items found!
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Model.Authorships)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Book.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Author.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
